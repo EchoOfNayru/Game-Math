@@ -1,4 +1,5 @@
 #include "vec2.h"
+#include "mathutils.h"
 
 #include <cmath>
 #include <cfloat>
@@ -15,7 +16,7 @@ vec2 operator-(const vec2 & lhs, const vec2 & rhs)
 	return { lhs.x - rhs.x, lhs.y - rhs.y};
 }
 
-vec2 operator*(const vec2 & lhs, int rhs)
+vec2 operator*(const vec2 & lhs, float rhs)
 {
 	vec2 value;
 	value.x = lhs.x * rhs;
@@ -23,7 +24,7 @@ vec2 operator*(const vec2 & lhs, int rhs)
 	return value;
 }
 
-vec2 operator*(int lhs, const vec2 & rhs)
+vec2 operator*(float lhs, const vec2 & rhs)
 {
 	vec2 value;
 	value.x = rhs.x * lhs;
@@ -31,11 +32,11 @@ vec2 operator*(int lhs, const vec2 & rhs)
 	return value;
 }
 
-vec2 operator/(const vec2 & lhs, int rhs)
+vec2 operator/(const vec2 & lhs, float rhs)
 {
 	vec2 value;
 	value.x = lhs.x / rhs;
-	value, y = lhs.y / rhs;
+	value.y = lhs.y / rhs;
 	return value;
 }
 
@@ -53,13 +54,13 @@ vec2 & operator-=(vec2 & lhs, const vec2 & rhs)
 	return lhs;
 }
 
-vec2 & operator*=(vec2 & lhs, int rhs)
+vec2 & operator*=(vec2 & lhs, float rhs)
 {
 	lhs = lhs * rhs;
 	return lhs;
 }
 
-vec2 & operator/=(vec2 & lhs, int rhs)
+vec2 & operator/=(vec2 & lhs, float rhs)
 {
 	lhs = lhs / rhs;
 	return lhs;
@@ -98,7 +99,69 @@ bool operator!=(const vec2 & lhs, const vec2 & rhs)
 
 //ultility functions
 
-float Magnitude(vec2 & lhs, vec2 & rhs)
+float Magnitude(const vec2 & v)
 {
-	return 0.0f;
+	float num1 = v.x * v.x;
+	float num2 = v.y * v.y;
+	float num3 = num1 + num2;
+	num3 = sqrtf(num3);
+	return num3;
+}
+
+vec2 Normal(const vec2 & v) 
+{
+	vec2 temp;
+	float mag = abs(Magnitude(v));
+	temp.x = v.x / mag;
+	temp.y = v.y / mag;
+	return temp;
+}
+
+vec2 Normalize(vec2 & v) 
+{
+	float mag = abs(Magnitude(v));
+	v.x /= mag;
+	v.y /= mag;
+	return v;
+}
+
+float Dot(const vec2 & lhs,const vec2 & rhs) 
+{
+	float num1 = lhs.x * rhs.x;
+	float num2 = lhs.y * rhs.y;
+	float num3 = num1 + num2;
+	return num3;
+}
+
+float Distance(const vec2 & lhs,const vec2 & rhs) 
+{
+	return Magnitude(lhs - rhs);
+}
+
+vec2 Perpendicular(const vec2 & v) 
+{
+	return vec2{ v.y, -v.x };
+}
+
+vec2 Lerp(const vec2 &s, const vec2 &e, float a) 
+{
+	return s + a* (e - s);
+}
+
+vec2 min(const vec2 &a, const vec2 &b)
+{
+	vec2 temp;
+	temp.x = min(a.x, b.x);
+	temp.y = min(a.y, b.y);
+
+	return temp;
+}
+
+vec2 max(const vec2 &a, const vec2 &b)
+{
+	vec2 temp;
+	temp.x = max(a.x, b.x);
+	temp.y = max(a.y, b.y);
+
+	return temp;
 }

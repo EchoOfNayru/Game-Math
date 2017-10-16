@@ -35,3 +35,15 @@ vec3 operator/=(vec3 &lhs, float rhs);
 // logical ops
 
 bool operator==(const vec3 &lhs, const vec3 &rhs);
+bool operator!=(const vec3 &lhs, const vec3 &rhs);
+
+// utility functions
+
+float Magnitude(const vec3 &v);
+vec3 Normal(const vec3 &v);
+vec3 Normalize(vec3 &v);
+float Dot(const vec3 &lhs, const vec3 &rhs);
+float Distance(const vec3 &lhs, const vec3 &rhs);
+vec3 Min(const vec3 &lhs, const vec3 &rhs);
+vec3 Max(const vec3 &lhs, const vec3 &rhs);
+vec3 Clamp(const vec3 &v, const vec3 &min, const vec3 &max);

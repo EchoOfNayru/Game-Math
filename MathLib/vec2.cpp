@@ -4,6 +4,19 @@
 #include <cmath>
 #include <cfloat>
 
+
+//access by index
+
+float & vec2::operator[](unsigned idx)
+{
+	return v[idx];
+}
+
+float vec2::operator[](unsigned idx) const
+{
+	return v[idx];
+}
+
 //arithmatic operators
 
 vec2 operator+(const vec2 & lhs, const vec2 & rhs)
@@ -165,3 +178,5 @@ vec2 max(const vec2 &a, const vec2 &b)
 
 	return temp;
 }
+
+

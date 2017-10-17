@@ -7,7 +7,7 @@ union vec3
 	float v[3];
 
 	//access by individual compnent
-	struct {float x, y, z};
+	struct { float x, y, z; };
 
 	//access to vec3 by index
 	float &operator[](unsigned idx);

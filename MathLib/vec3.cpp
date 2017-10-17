@@ -230,4 +230,5 @@ vec3 Clamp(const vec3 & v, const vec3 & min, const vec3 & max)
 	{
 		result.z = v.z;
 	}
+	return result;
 }

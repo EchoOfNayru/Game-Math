@@ -154,7 +154,7 @@ vec3 Normalize(vec3 &v)
 
 float Dot(const vec3 &lhs, const vec3 &rhs)
 {
-	return ((lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.x * rhs.x));
+	return ((lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z));
 }
 
 float Distance(const vec3 &lhs, const vec3 &rhs)
@@ -231,4 +231,11 @@ vec3 Clamp(const vec3 & v, const vec3 & min, const vec3 & max)
 		result.z = v.z;
 	}
 	return result;
+}
+
+vec3 cross(const vec3 &a, const vec3 &b)
+{
+	return  vec3{ a.y*b.z - a.z*b.y,
+		a.z*b.x - a.x*b.z,
+		a.x*b.y - a.y*b.x };
 }

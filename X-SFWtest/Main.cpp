@@ -3,30 +3,34 @@
 #include "mathutils.h"
 #include "Transform.h"
 #include "vec3.h"
+#include "Rgidbody.h"
 
 int main() 
 {
 	sfw::initContext();
 
-	Transform myTransform;
-	myTransform.position = vec2{ 350,400 };
-	myTransform.dimension = vec2{ 1,1 };
-	myTransform.angle = 0;
+	Transform transform;
+	Rigidbody rigidbody;
 
-	/*Transform myBaby;
-	myBaby.position = vec2{ 10,10 };
-	myBaby.dimension = { 1,1 };
-	myBaby.angle = 0;
-	myBaby.e_parent = &myTransform;*/
+	transform.position = vec2{ 400,300 };
 
 	while (sfw::stepContext()) 
 	{
-		float t = sfw::getTime();
+		float dt = sfw::getDeltaTime();
 
-		//myTransform.angle += 17 * t;
+		//rigidbody.force = { 0,-25 };
+		if (sfw::getKey('W'))rigidbody.force += transform.getGlobalTransform()[1].xy * 100;
+		if (sfw::getKey('A'))rigidbody.torque += 360;
+		if (sfw::getKey('D'))rigidbody.torque -= 360;
 
-		DrawMatrix(myTransform.getGlobalTransform(), 30);
-		//DrawMatrix(myBaby.getGlobalTransform(), 30);
+		if (sfw::getKey(' ')) 
+		{
+			rigidbody.force += -1 * rigidbody.velocity * 20;
+			rigidbody.torque += -rigidbody.angularVelocity * 20;
+		}
+
+		rigidbody.integrate(transform, dt);
+		DrawMatrix(transform.getGlobalTransform(), 40);
 	}
 
 	sfw::termContext();

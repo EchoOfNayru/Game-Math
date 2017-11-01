@@ -4,33 +4,39 @@
 #include "Transform.h"
 #include "vec3.h"
 #include "Rgidbody.h"
+#include "DrawShape.h"
+#include "Collider.h"
+#include "Player.h"
+#include "Collision.h"
+
+#include <cmath>
+#include <string>
+#include <cstring>
+#include <cassert>
 
 int main() 
 {
 	sfw::initContext();
 
-	Transform transform;
-	Rigidbody rigidbody;
 
-	transform.position = vec2{ 400,300 };
+	player pooper;
+
+	pooper.sprite = sfw::loadTextureMap("../res/Zach3.png");
+	pooper.t.dimension = vec2{ 48,48 };
+	pooper.t.position = vec2{ 400,300 };
+	pooper.collider.box.extents = { .5,.5 };
 
 	while (sfw::stepContext()) 
 	{
 		float dt = sfw::getDeltaTime();
+		
+		pooper.controller.poll(pooper.rb, pooper.t);
 
-		//rigidbody.force = { 0,-25 };
-		if (sfw::getKey('W'))rigidbody.force += transform.getGlobalTransform()[1].xy * 100;
-		if (sfw::getKey('A'))rigidbody.torque += 360;
-		if (sfw::getKey('D'))rigidbody.torque -= 360;
+		pooper.rb.integrate(pooper.t, dt);
 
-		if (sfw::getKey(' ')) 
-		{
-			rigidbody.force += -1 * rigidbody.velocity * 20;
-			rigidbody.torque += -rigidbody.angularVelocity * 20;
-		}
+		pooper.sprite.draw(pooper.t);
 
-		rigidbody.integrate(transform, dt);
-		DrawMatrix(transform.getGlobalTransform(), 40);
+		drawAABB(pooper.collider.getGlobalBox(pooper.t), MAGENTA);
 	}
 
 	sfw::termContext();

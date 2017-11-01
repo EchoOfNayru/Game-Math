@@ -1,9 +1,24 @@
 #pragma once
-#include "vec2.h"
-#include "mathutils.h"
+
+#include "RgidBody.h"
+#include "Transform.h"
+#include "Collider.h"
+#include "Controller.h"
+#include "Sprite.h"
 
 class player
 {
 public:
-	vec2 pos;
+	Transform t;
+	Rigidbody rb;
+	Collider collider;
+	Controller controller;
+	Sprite sprite;
+};
+
+class Wall 
+{
+	Transform t;
+	Collider collider;
+	Sprite sprite;
 };

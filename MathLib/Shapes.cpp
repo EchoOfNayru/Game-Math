@@ -18,5 +18,23 @@ circle operator*(const mat3 & M, const circle & C)
 
 AABB operator*(const mat3 & M, const AABB & B)
 {
-	return AABB();
+	AABB retval;
+	
+	vec2 TR = B.position + B.extents;
+	vec2 BL = B.position - B.extents;
+	vec2 TL = { BL.x, TR.y };
+	vec2 BR = { TR.x, BL.y };
+
+	TR = (M * vec3{ TR.x, TR.y, 1 }).xy;
+	BL = (M * vec3{ BL.x, BL.y, 1 }).xy;
+	TL = (M * vec3{ TL.x, TL.y, 1 }).xy;
+	BR = (M * vec3{ BR.x, BR.y, 1 }).xy;
+
+	vec2 MinCorner = min(TR, min(BL, min(TL, BR)));
+	vec2 MaxCorner = max(TR, max(BL, max(TL, BR)));
+
+	retval.position = (MinCorner + MaxCorner) / 2;
+	retval.extents = (MinCorner - MaxCorner) / 2;
+
+	return retval;
 }

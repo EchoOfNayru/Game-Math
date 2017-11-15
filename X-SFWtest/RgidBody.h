@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "vec2.h"
 #include "Transform.h"
 
@@ -22,11 +22,11 @@ public:
 		force{ 0,0 },
 		impulse{ 0,0 },
 		mass(1),
-		drag(0.25f),
+		drag(0.5f),
 		angularVelocity(0),
 		angularAcceleration(0),
 		torque(0),
-		angularDrag(.01f)
+		angularDrag(.5f)
 	{
 
 	}

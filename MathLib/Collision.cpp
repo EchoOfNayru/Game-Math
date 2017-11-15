@@ -56,3 +56,64 @@ Collision intersect_AABB_circle(const AABB &A, const circle &B)
 
 	return Collision();
 }
+
+
+
+void static_resolution(vec2 & pos, vec2 & vel, const Collision & hit, float elasticity)
+{
+	// for position, we need to correct:
+	pos += hit.axis * hit.handedness * hit.penetrationDepth;
+
+	// for velocity, we need to reflect:
+	/*if(hit.axis.x == 1 || hit.axis.x == -1)*/
+	vel = vec2{ 0 , 0 } -reflect(vel, hit.axis*hit.handedness) * elasticity;
+	//else check y
+
+	// if not just x or just y, run normally
+}
+
+void dynamic_resolution(vec2 & Apos, vec2 & Avel, float Amass,
+	vec2 & Bpos, vec2 & Bvel, float Bmass,
+	const Collision & hit, float elasticity)
+{
+	// Law of Conservation
+	/*
+	mass*vel = momentum
+
+	AP + BP = `AP + `BP // Conservation of Momentum
+	Avel*Amass + Bvel*Bmass = fAvel*Amass + fBvel*Bmass
+	Avel - Bvel = -(fBvel - fAvel)
+	fBvel = Bvel - Avel + fAvel
+	///
+	Avel*Amass +  = fAvel*Amass - Avel*Bmass + fAvel*Bmass
+	*/
+
+	vec2 normal = hit.axis * hit.handedness;
+
+	vec2 Rvel = Avel - Bvel;
+
+	float j = // impulse
+			  // the total energy applied across the normal
+		-(1 + elasticity)*Dot(Rvel, normal) /
+		Dot(normal, normal*(1 / Amass + 1 / Bmass));
+
+
+	Avel += (j / Amass) * normal;
+	Bvel -= (j / Bmass) * normal;
+
+	Apos += normal * hit.penetrationDepth * Amass / (Amass + Bmass);
+	Bpos -= normal * hit.penetrationDepth * Bmass / (Amass + Bmass);
+}
+
+//bool example(player pooper, AABB a, AABB b)
+//{
+//	Collision hit = intersect_AABB(a, b);
+//
+//	if (hit.penetrationDepth > 0)
+//	{
+//		static_resolution(pooper, pooper, hit, 0.1f);
+//		return true;
+//	}
+//
+//	return false;
+//}

@@ -11,14 +11,70 @@ class player
 public:
 	Transform t;
 	Rigidbody rb;
-	Collider collider;
+	Collider c;
 	Controller controller;
+	Sprite sprite;
+
+	bool inGrass;
+
+	void update()
+	{
+		if (inGrass) rb.drag = 3;
+		else rb.drag = 0.5f;
+	}
+};
+
+class wall 
+{
+public:
+	Transform t;
+	Collider c;
 	Sprite sprite;
 };
 
-class Wall 
+class background 
 {
-	Transform t;
-	Collider collider;
+public:
 	Sprite sprite;
+	Transform t;
+};
+
+class grass 
+{
+public:
+	Transform t;
+	Collider c;
+};
+
+class checkpoint 
+{
+public:
+	Transform t;
+	Collider c;
+	Sprite sprite1;
+	Sprite sprite2;
+	bool isTriggered;
+
+	void Draw() 
+	{
+		if (isTriggered) 
+		{
+			sprite2.draw(t);
+		}
+		else 
+		{
+			sprite1.draw(t);
+		}
+	}
+};
+
+class checkpointTrigger 
+{
+public:
+	Transform t;
+	Sprite sprite;
+	Collider c;
+	bool isTriggered;
+	checkpoint connection1;
+	checkpoint connection2;
 };

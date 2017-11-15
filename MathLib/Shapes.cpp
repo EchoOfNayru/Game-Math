@@ -34,7 +34,7 @@ AABB operator*(const mat3 & M, const AABB & B)
 	vec2 MaxCorner = max(TR, max(BL, max(TL, BR)));
 
 	retval.position = (MinCorner + MaxCorner) / 2;
-	retval.extents = (MinCorner - MaxCorner) / 2;
+	retval.extents = (MaxCorner - MinCorner) / 2;
 
 	return retval;
 }

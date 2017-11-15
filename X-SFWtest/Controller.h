@@ -17,8 +17,8 @@ public:
 
 		if (sfw::getKey(' '))
 		{
-			rb.force += -1 * rb.velocity * 20;
-			rb.torque += -rb.angularVelocity * 20;
+			rb.force += -1 * rb.velocity * 2;
+			rb.torque += -rb.angularVelocity * 2;
 		}
 	}
 };
